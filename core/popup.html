@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <style>
+
+
+      #selector {
+        margin:auto;
+        width: 450px;
+
+      }
+
+      .box {
+        display: inline-block;
+        width : 70px;
+        height : 20px;
+      }
+      #redLine {
+        background-color:red;
+      }
+      #greenLine {
+        background-color:green;
+      }
+      #orangeLine {
+        background-color:#F17A26;
+      }
+      #blueLine {
+        background-color:#1469B1;
+      }
+      #goldLine {
+        background-color:#FDC425;
+      }
+      #silverLine {
+        background-color:#B6C1B9;
+      }
+    </style>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
+     -->
+    <script src="../lib/jquery.js"></script>
+    <script src="popup.js"></script>
+  </head>
+  <body>
+    <div id="selector">
+      <a class="box" id="redLine" href="#red"></a>
+      <a class="box" id="greenLine" href="#green"></a>
+      <a class="box" id="orangeLine" href="#orange"></a>
+      <a class="box" id="blueLine" href="#blue"></a>
+      <a class="box" id="goldLine" href="#gold"></a>
+      <a class="box" id="silverLine" href="#silver"></a>
+    </div>
+  </body>
+</html>
+
