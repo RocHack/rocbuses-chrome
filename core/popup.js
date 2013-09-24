@@ -4,6 +4,7 @@
 
 var formatInfo = {
 
+  dayChars : "UMTWRFSU",
   dayName : {
     M: "Monday",
     T: "Tuesday",
@@ -14,23 +15,115 @@ var formatInfo = {
     U: "Sunday"
   },
 
-  formatLineName : function(line, days) {
+  formatLineName : function(line) {
     return line[0].toUpperCase() + line.substr(1) + " Line";
-  }
+  },
 
+  insertTime : function(row, timeArr) {
+    for (var timeIndex in timeArr) {
+      var time = timeArr[timeIndex];
+      var timeCell = document.createElement('td');
+      var hour = Math.floor(time/100);
+      var minute = time%100;
+      hour = (hour == 0 ? "00" : hour);
+      minute = (minute < 10 ? "0"+minute : minute);
+
+      if (time == null) {
+        row.appendChild(timeCell);
+        continue;
+      }
+      if (time > 1300) {
+        timeCell.setAttribute('class', 'pm');
+        timeCell.appendChild(document.createTextNode((hour - 12) +":" + minute));
+      } else {
+        timeCell.appendChild(document.createTextNode(hour + ":" + minute));
+      }
+      row.appendChild(timeCell);
+    }
+
+  },
+
+  isDayInString : function(date, dayStr) {
+    var dayChange = new Date(date - 3 * 3600000);
+    return dayStr.indexOf(this.dayChars[dayChange.getDay()]) != -1;
+  }
 
 };
 
 var scheduleRender = {
     
+    renderStops : function(stops, tbodyDOM) {
+      for (var index in stops) {
+        var row = document.createElement('tr');
+        var stop = stops[index];
+        if (stop.place) {
+          var place = document.createElement('th');
+          place.appendChild(document.createTextNode(stop.place));
+          row.appendChild(place);
+        }
+        formatInfo.insertTime(row, stop.times);
+        tbodyDOM.appendChild(row);
+        /*
+        for (var timeIndex in stop.times) {
+          var cellDOM = document.createElement('td');
+          var time = stop.times[timeIndex];
+          row.appendChild(cellDOM);
+        }
+        */
+      }
+
+
+    },
+    
+    renderDirections : function(directions, routeDOM) {
+      var now = new Date();
+      var table = document.createElement('table');
+      for (var index in directions) {
+        var direction = directions[index];
+        if (direction.title) {
+          var header = document.createElement('thead');
+          var headRow = document.createElement('tr');
+          var head = document.createElement('th');
+          head.setAttribute("colspan", "100%");
+          head.appendChild(document.createTextNode(direction.title));
+          headRow.appendChild(head);
+          header.appendChild(headRow);
+          table.appendChild(header);
+        }
+
+        var body = document.createElement('tbody');
+        this.renderStops(direction.stops, body);
+        table.appendChild(body);
+
+
+      }
+      routeDOM.appendChild(table);
+    },
+
     renderRoutes : function(name, line, lineDOM) {
-      for (var route in line.routes) {
-        var lineName = formatInfo.formatLineName(name, route.days);
-        var h3 = document.createElement("h3");
-        h3.setAttribute('class', "line_name");
-        h3.appendChild(document.createTextNode(lineName));
-        lineDOM.appendChild(h3);
-        var routeTable = document.createElement('table');
+      var now = new Date();
+      for (var index in line.routes) {
+        var route = line.routes[index];
+        if (formatInfo.isDayInString(now, route.days)) {
+
+          var lineName = formatInfo.formatLineName(name);
+          var p = document.createElement("p");
+          p.setAttribute('class', "line_name");
+          p.appendChild(document.createTextNode(lineName));
+          
+          var title = document.createElement("p");
+          title.setAttribute('class', "line_title");
+          title.appendChild(document.createTextNode(route.title));
+          
+          var routeContainer = document.createElement("div");
+          routeContainer.setAttribute('class', 'route');
+
+          this.renderDirections(route.directions, routeContainer);
+
+          lineDOM.appendChild(p);
+          lineDOM.appendChild(title);
+          lineDOM.appendChild(routeContainer);
+        }
       }
     },
 
