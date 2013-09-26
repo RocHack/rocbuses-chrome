@@ -2,68 +2,8 @@
 <html>
   <head>
     <title>Getting Started Extension's Popup</title>
-    <style>
+    <link rel="stylesheet" type="text/css" href="core/popup.css">
 
-
-      #selector {
-        margin:auto;
-        width: 450px;
-
-      }
-
-      #red tbody td:nth-child(2n+1) {
-        background: #FAC6C8;
-      }
-
-
-      #blue tbody td:nth-child(2n+1) {
-        background: #CBE5F2;
-      }
-
-      #green tbody td:nth-child(2n+1) {
-        background: #C9EEC9;
-      }
-
-      .pm {
-        font-weight:bold;
-      }
-
-      thead {
-        text-align:left;
-      }
-
-      th {
-        width:auto;
-      }
-
-      table, th, td {
-        border: 1px solid black;
-      }
-
-      .box {
-        display: inline-block;
-        width : 70px;
-        height : 20px;
-      }
-      #redLine {
-        background-color:red;
-      }
-      #greenLine {
-        background-color:green;
-      }
-      #orangeLine {
-        background-color:#F17A26;
-      }
-      #blueLine {
-        background-color:#1469B1;
-      }
-      #goldLine {
-        background-color:#FDC425;
-      }
-      #silverLine {
-        background-color:#B6C1B9;
-      }
-    </style>
 
     <!--
       - JavaScript and HTML must be in separate files: see our Content Security
@@ -71,17 +11,17 @@
       -
       - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
      -->
-    <script src="lib/jquery.js"></script>
+    <script src="lib/jquery-1.9.1.min.js"></script>
     <script src="core/popup.js"></script>
   </head>
   <body>
     <div id="selector">
-      <a class="box" id="redLine" href="#red"></a>
-      <a class="box" id="greenLine" href="#green"></a>
-      <a class="box" id="orangeLine" href="#orange"></a>
-      <a class="box" id="blueLine" href="#blue"></a>
-      <a class="box" id="goldLine" href="#gold"></a>
-      <a class="box" id="silverLine" href="#silver"></a>
+      <a class="box" data-line="red" id="redLine"></a>
+      <a class="box" data-line="green" id="greenLine"></a>
+      <a class="box" data-line="orange" id="orangeLine"></a>
+      <a class="box" data-line="blue" id="blueLine"></a>
+      <a class="box" data-line="gold" id="goldLine"></a>
+      <a class="box" data-line="silver" id="silverLine"></a>
     </div>
   </body>
 </html>

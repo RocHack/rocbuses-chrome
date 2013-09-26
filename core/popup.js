@@ -25,16 +25,14 @@ var formatInfo = {
       var timeCell = document.createElement('td');
       var hour = Math.floor(time/100);
       var minute = time%100;
-      hour = (hour == 0 ? "00" : hour);
+      hour = (hour == 0 ? "0" : hour);
       minute = (minute < 10 ? "0"+minute : minute);
 
-      if (time == null) {
-        row.appendChild(timeCell);
-        continue;
-      }
       if (time > 1300) {
         timeCell.setAttribute('class', 'pm');
         timeCell.appendChild(document.createTextNode((hour - 12) +":" + minute));
+      } else if (time == null) {
+        timeCell.appendChild(document.createTextNode("-"));
       } else {
         timeCell.appendChild(document.createTextNode(hour + ":" + minute));
       }
@@ -58,18 +56,12 @@ var scheduleRender = {
         var stop = stops[index];
         if (stop.place) {
           var place = document.createElement('th');
+          place.style.minWidth = 194 + "px";
           place.appendChild(document.createTextNode(stop.place));
           row.appendChild(place);
         }
         formatInfo.insertTime(row, stop.times);
         tbodyDOM.appendChild(row);
-        /*
-        for (var timeIndex in stop.times) {
-          var cellDOM = document.createElement('td');
-          var time = stop.times[timeIndex];
-          row.appendChild(cellDOM);
-        }
-        */
       }
 
 
@@ -106,11 +98,12 @@ var scheduleRender = {
         var route = line.routes[index];
         if (formatInfo.isDayInString(now, route.days)) {
 
+          /*
           var lineName = formatInfo.formatLineName(name);
           var p = document.createElement("p");
           p.setAttribute('class', "line_name");
           p.appendChild(document.createTextNode(lineName));
-          
+          */
           var title = document.createElement("p");
           title.setAttribute('class', "line_title");
           title.appendChild(document.createTextNode(route.title));
@@ -120,7 +113,7 @@ var scheduleRender = {
 
           this.renderDirections(route.directions, routeContainer);
 
-          lineDOM.appendChild(p);
+          //lineDOM.appendChild(p);
           lineDOM.appendChild(title);
           lineDOM.appendChild(routeContainer);
         }
@@ -131,6 +124,7 @@ var scheduleRender = {
       for (var line in schedule) {
         var lineDOM = document.createElement('div');
         lineDOM.setAttribute('id', line);
+        lineDOM.setAttribute('data-line', line);
         lineDOM.setAttribute('class', 'schedule');
         this.renderRoutes(line, schedule[line], lineDOM);
         scheduleDOM.appendChild(lineDOM);
@@ -142,6 +136,7 @@ var scheduleRender = {
       var curObj = this;
       $.getJSON("core/schedules.json", function(json) {
         var schedules = document.createElement('div');
+        schedules.setAttribute('id', 'lines');
         curObj.renderLines(json, schedules);
         document.body.appendChild(schedules);
       });
@@ -152,4 +147,18 @@ var scheduleRender = {
 
 document.addEventListener('DOMContentLoaded', function () {
   scheduleRender.getSchedule();
+  
+  // Thanks to Joe Brunner
+  $('#selector a').on('click', function() {
+    var clickedTab = $(this);
+    var clickedLine = clickedTab.attr('data-line');
+    console.log(clickedLine);
+  
+
+    $('#selector a').removeClass('active');
+    clickedTab.addClass('active');
+
+    $('#lines div').removeClass('active');
+    $('#lines div[data-line=' + clickedLine + ']').addClass('active');
+  });
 });
