@@ -98,12 +98,6 @@ var scheduleRender = {
         var route = line.routes[index];
         if (formatInfo.isDayInString(now, route.days)) {
 
-          /*
-          var lineName = formatInfo.formatLineName(name);
-          var p = document.createElement("p");
-          p.setAttribute('class', "line_name");
-          p.appendChild(document.createTextNode(lineName));
-          */
           var title = document.createElement("p");
           title.setAttribute('class', "line_title");
           title.appendChild(document.createTextNode(route.title));
@@ -112,11 +106,15 @@ var scheduleRender = {
           routeContainer.setAttribute('class', 'route');
 
           this.renderDirections(route.directions, routeContainer);
-
-          //lineDOM.appendChild(p);
           lineDOM.appendChild(title);
           lineDOM.appendChild(routeContainer);
         }
+      }
+
+      if (!lineDOM.firstChild) {
+        var noLine = document.createElement("h4");
+        noLine.appendChild(document.createTextNode("no routes running to day"));
+        lineDOM.appendChild(noLine);
       }
     },
 
