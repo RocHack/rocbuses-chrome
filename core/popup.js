@@ -45,11 +45,11 @@ var formatInfo = {
 
       if (time >= 1200) {
         timeCell.setAttribute('class', 'pm');
-        timeCell.appendChild((time > 1300) ? document.createTextNode((hour-12) +":" + minute) : document.createTextNode(hour + ":" + minute));
+        timeCell.appendChild((time > 1300) ? document.createTextNode((hour-12) +":" + minute + "PM") : document.createTextNode(hour + ":" + minute + "PM"));
       } else if (time == null) {
         timeCell.appendChild(document.createTextNode("-"));
       } else {
-        timeCell.appendChild(document.createTextNode(hour + ":" + minute));
+        timeCell.appendChild(document.createTextNode(hour + ":" + minute + "AM"));
       }
       row.appendChild(timeCell);
     }
@@ -198,6 +198,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   $("#github").on('click', function() {
     chrome.tabs.create({url: "https://github.com/RocHack/rocbuses-chrome"});
+  });
+  $("#rochack").on('click', function() {
+    chrome.tabs.create({url: "http://rochack.org"});
   });
 
 });
