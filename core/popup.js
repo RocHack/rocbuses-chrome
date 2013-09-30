@@ -19,18 +19,33 @@ var formatInfo = {
     return line[0].toUpperCase() + line.substr(1) + " Line";
   },
 
+
+
   insertTime : function(row, timeArr) {
     for (var timeIndex in timeArr) {
       var time = timeArr[timeIndex];
       var timeCell = document.createElement('td');
       var hour = Math.floor(time/100);
       var minute = time%100;
+      var nowHour = new Date().getHours();
+      var nowMinute = new Date().getMinutes();
+
+      if (nowHour > hour) {
+        continue;
+      } else if (nowHour == hour) {
+        if (nowMinute > minute) {
+          continue;
+        }
+      }
+
+
+
       hour = (hour == 0 ? "0" : hour);
       minute = (minute < 10 ? "0"+minute : minute);
 
-      if (time > 1300) {
+      if (time >= 1200) {
         timeCell.setAttribute('class', 'pm');
-        timeCell.appendChild(document.createTextNode((hour - 12) +":" + minute));
+        timeCell.appendChild((time > 1300) ? document.createTextNode((hour-12) +":" + minute) : document.createTextNode(hour + ":" + minute));
       } else if (time == null) {
         timeCell.appendChild(document.createTextNode("-"));
       } else {
@@ -63,7 +78,22 @@ var scheduleRender = {
         formatInfo.insertTime(row, stop.times);
         tbodyDOM.appendChild(row);
       }
+      var maxLength = -1;
+      for (i = 0; i < tbodyDOM.childNodes.length; i++) { 
+        if (tbodyDOM.childNodes[i].childNodes.length > maxLength) {
+          maxLength = tbodyDOM.childNodes[i].childNodes.length;
+        }
+      }
 
+      for (i = 0; i < tbodyDOM.childNodes.length; i++) {
+        if (tbodyDOM.childNodes[i].childNodes.length < maxLength) {
+          var tempColumn = document.createElement('td'); 
+          tempColumn.appendChild(document.createTextNode("-"));
+          tbodyDOM.childNodes[i].appendChild(tempColumn);
+        }
+      }
+
+      return maxLength-1;
 
     },
     
@@ -84,10 +114,16 @@ var scheduleRender = {
         }
 
         var body = document.createElement('tbody');
-        this.renderStops(direction.stops, body);
-        table.appendChild(body);
-
-
+        var moreRuns = this.renderStops(direction.stops, body);
+        if (moreRuns) {
+          table.appendChild(body);
+        } else {
+          var notice = document.createElement('td');
+          var noticeText = document.createElement('h6');
+          noticeText.appendChild(document.createTextNode('No more runs on this direction!'))
+          notice.appendChild(noticeText);
+          table.appendChild(notice);
+        }
       }
       routeDOM.appendChild(table);
     },
@@ -113,7 +149,8 @@ var scheduleRender = {
 
       if (!lineDOM.firstChild) {
         var noLine = document.createElement("h4");
-        noLine.appendChild(document.createTextNode("no routes running to day"));
+        noLine.setAttribute('class', 'no_line_today')
+        noLine.appendChild(document.createTextNode("No " + (name.charAt(0).toUpperCase() + name.slice(1)) + " Line runs today =("));
         lineDOM.appendChild(noLine);
       }
     },
@@ -150,9 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
   $('#selector a').on('click', function() {
     var clickedTab = $(this);
     var clickedLine = clickedTab.attr('data-line');
-    console.log(clickedLine);
-  
-
+    
     $('#selector a').removeClass('active');
     clickedTab.addClass('active');
 
