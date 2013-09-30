@@ -170,10 +170,8 @@ var scheduleRender = {
     getSchedule : function() {
       var curObj = this;
       $.getJSON("core/schedules.json", function(json) {
-        var schedules = document.createElement('div');
-        schedules.setAttribute('id', 'lines');
+        var schedules = document.getElementById("lines");
         curObj.renderLines(json, schedules);
-        document.body.appendChild(schedules);
       });
     },
 };
@@ -182,7 +180,7 @@ var scheduleRender = {
 
 document.addEventListener('DOMContentLoaded', function () {
   scheduleRender.getSchedule();
-  
+
   // Thanks to Joe Brunner
   $('#selector a').on('click', function() {
     var clickedTab = $(this);
@@ -194,4 +192,12 @@ document.addEventListener('DOMContentLoaded', function () {
     $('#lines div').removeClass('active');
     $('#lines div[data-line=' + clickedLine + ']').addClass('active');
   });
+
+  $("#rocbuses").on('click', function() {
+    chrome.tabs.create({url: "http://rochack.org/rocbuses"});
+  });
+  $("#github").on('click', function() {
+    chrome.tabs.create({url: "https://github.com/RocHack/rocbuses-chrome"});
+  });
+
 });

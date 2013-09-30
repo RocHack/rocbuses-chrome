@@ -11,7 +11,10 @@
   },
 
   "background" : {
-  	"scripts": ["core/popup.js"],
-  	"persistent" : false
-  }
+  	"scripts": ["core/popup.js"]
+  },
+
+  "permissions" : [
+    "tabs"
+  ]
 }

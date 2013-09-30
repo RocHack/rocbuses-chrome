@@ -135,7 +135,10 @@ td {
 }
 
 
-
+#links {
+  text-align:center;
+  font-size: .75em;
+}
 
 .pm {
   font-weight:bold;
@@ -157,4 +160,11 @@ td {
 
 thead {
   margin-bottom: 5px;
+}
+
+#octocat {
+  margin-top: 5px;
+}
+#links {
+  margin-top: 10px;
 }
