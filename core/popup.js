@@ -30,6 +30,15 @@ var formatInfo = {
       var nowHour = new Date().getHours();
       var nowMinute = new Date().getMinutes();
 
+      // before 3AM, make sure that it's at 
+      if (nowHour < 3) {
+        nowHour += 24;
+      }
+
+      if (hour < 3) {
+        hour += 24;
+      }
+
       if (nowHour > hour) {
         continue;
       } else if (nowHour == hour) {
@@ -45,11 +54,11 @@ var formatInfo = {
 
       if (time >= 1200) {
         timeCell.setAttribute('class', 'pm');
-        timeCell.appendChild((time > 1300) ? document.createTextNode((hour-12) +":" + minute + "PM") : document.createTextNode(hour + ":" + minute + "PM"));
+        timeCell.appendChild((time > 1300) ? document.createTextNode((hour%12) +":" + minute + "PM") : document.createTextNode(hour + ":" + minute + "PM"));
       } else if (time == null) {
         timeCell.appendChild(document.createTextNode("-"));
       } else {
-        timeCell.appendChild(document.createTextNode(hour + ":" + minute + "AM"));
+        timeCell.appendChild(document.createTextNode((hour%12) + ":" + minute + "AM"));
       }
       row.appendChild(timeCell);
     }
@@ -58,6 +67,7 @@ var formatInfo = {
 
   isDayInString : function(date, dayStr) {
     var dayChange = new Date(date - 3 * 3600000);
+    console.log(dayChange);
     return dayStr.indexOf(this.dayChars[dayChange.getDay()]) != -1;
   }
 

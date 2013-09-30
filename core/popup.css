@@ -103,7 +103,8 @@ th {
 
 td {
   text-align: center;
-  min-width : 3em;
+  min-width : 3.5em;
+  font-size: 14px;
 }
 
 
