@@ -44,11 +44,13 @@ var formatInfo = {
   insertTime : function(row, timeArr) {
     for (var timeIndex in timeArr) {
       var time = timeArr[timeIndex];
+      if (time == null) continue;
       var timeCell = document.createElement('td');
       var hour = Math.floor(time/100);
       var minute = time%100;
       var nowHour = new Date().getHours();
       var nowMinute = new Date().getMinutes();
+
 
       // before 3AM, make sure that it's at 
       if (nowHour < 3) {
@@ -75,8 +77,6 @@ var formatInfo = {
       if (time >= 1200) {
         timeCell.setAttribute('class', 'pm');
         timeCell.appendChild((time > 1300) ? document.createTextNode((hour%12) +":" + minute + "PM") : document.createTextNode(hour + ":" + minute + "PM"));
-      } else if (time == null) {
-        timeCell.appendChild(document.createTextNode("-"));
       } else {
         timeCell.appendChild(document.createTextNode((hour%12) + ":" + minute + "AM"));
       }
