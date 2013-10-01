@@ -87,7 +87,7 @@
 
 body {
   font-family : Helvetica, Arial, sans-serif;
-  width: 450px;
+  width: 550px;
 } 
 
 
@@ -103,7 +103,7 @@ th {
 
 td {
   text-align: center;
-  min-width : 3.5em;
+  min-width : 4em;
   font-size: 13px;
 }
 
@@ -157,6 +157,10 @@ td {
 
 .no_line_today {
   text-align: center;
+}
+
+.hidden {
+  display: none;
 }
 
 thead {
