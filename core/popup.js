@@ -42,7 +42,9 @@ var formatInfo = {
 
 
   insertTime : function(row, timeArr) {
+    var renderColumns = 0;
     for (var timeIndex in timeArr) {
+      
       var time = timeArr[timeIndex];
       if (time == null) continue;
       var timeCell = document.createElement('td');
@@ -69,8 +71,6 @@ var formatInfo = {
         }
       }
 
-
-
       hour = (hour == 0 ? "0" : hour);
       minute = (minute < 10 ? "0"+minute : minute);
 
@@ -79,6 +79,11 @@ var formatInfo = {
         timeCell.appendChild((time > 1300) ? document.createTextNode((hour%12) +":" + minute + "PM") : document.createTextNode(hour + ":" + minute + "PM"));
       } else {
         timeCell.appendChild(document.createTextNode((hour%12) + ":" + minute + "AM"));
+      }
+      if (renderColumns > 5) {
+        timeCell.className += ' hidden';
+      } else {
+        renderColumns++;
       }
       row.appendChild(timeCell);
     }
@@ -108,15 +113,19 @@ var scheduleRender = {
         formatInfo.insertTime(row, stop.times);
         tbodyDOM.appendChild(row);
       }
-      var maxLength = -1;
+      /*var maxLength = -1;
       for (i = 0; i < tbodyDOM.childNodes.length; i++) { 
         if (tbodyDOM.childNodes[i].childNodes.length > maxLength) {
           maxLength = tbodyDOM.childNodes[i].childNodes.length;
         }
-      }
+      }*/
+
+      var maxLength = -1;
 
       for (i = 0; i < tbodyDOM.childNodes.length; i++) {
-        if (tbodyDOM.childNodes[i].childNodes.length < maxLength) {
+        maxLength = (maxLength < tbodyDOM.childNodes[i].childNodes.length) ? tbodyDOM.childNodes[i].childNodes.length : maxLength;
+        //create 5 columns
+        while (tbodyDOM.childNodes[i].childNodes.length < 6) {
           var tempColumn = document.createElement('td'); 
           tempColumn.appendChild(document.createTextNode("-"));
           tbodyDOM.childNodes[i].appendChild(tempColumn);

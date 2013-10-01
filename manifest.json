@@ -3,7 +3,7 @@
 
   "name": "RocBuses",
   "description": "Chrome extension of RocBuses",
-  "version": "1.0.3",
+  "version": "1.0.4",
 
   "browser_action": {
     "default_icon": "icon.png",
