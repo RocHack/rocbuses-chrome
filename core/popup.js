@@ -231,6 +231,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     $('#lines div').removeClass('active');
     $('#lines div[data-line=' + clickedLine + ']').addClass('active');
+    $('#expand').css('display', 'block');
   });
 
   $("#rocbuses").on('click', function() {

@@ -87,7 +87,6 @@
 
 body {
   font-family : Helvetica, Arial, sans-serif;
-  width: 550px;
 } 
 
 
@@ -174,6 +173,7 @@ thead {
   margin-top: 10px;
 }
 #expand {
+  display: none;
   background-color:black;
   color:white;
   float:right;
