@@ -221,11 +221,12 @@ document.addEventListener('DOMContentLoaded', function () {
   scheduleRender.getSchedule();
 
   // Thanks to Joe Brunner
-  $('#selector a').on('click', function() {
+  $('.box').on('click', function() {
+
     var clickedTab = $(this);
     var clickedLine = clickedTab.attr('data-line');
     
-    $('#selector a').removeClass('active');
+    $('.box').removeClass('active');
     clickedTab.addClass('active');
 
     $('#lines div').removeClass('active');
@@ -240,6 +241,16 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   $("#rochack").on('click', function() {
     chrome.tabs.create({url: "http://rochack.org"});
+  });
+
+  // toggle showing entire future schedule or show only 5
+  $("#expand").on('click', function() {
+    if ($('.hidden').css('display') == 'table-cell') {
+      $('.hidden').css('display', 'none');
+    } else {
+      $('.hidden').css('display', 'table-cell');
+    }
+    $(this).text($(this).text() == "<" ? ">" : "<");
   });
 
 
