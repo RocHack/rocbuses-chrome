@@ -80,7 +80,7 @@ var formatInfo = {
       } else {
         timeCell.appendChild(document.createTextNode((hour%12) + ":" + minute + "AM"));
       }
-      if (renderColumns > 5) {
+      if (renderColumns >= 6) {
         timeCell.className += ' hidden';
       } else {
         renderColumns++;
@@ -92,7 +92,6 @@ var formatInfo = {
 
   isDayInString : function(date, dayStr) {
     var dayChange = new Date(date - 3 * 3600000);
-    console.log(dayChange);
     return dayStr.indexOf(this.dayChars[dayChange.getDay()]) != -1;
   }
 
@@ -113,20 +112,25 @@ var scheduleRender = {
         formatInfo.insertTime(row, stop.times);
         tbodyDOM.appendChild(row);
       }
-      /*var maxLength = -1;
-      for (i = 0; i < tbodyDOM.childNodes.length; i++) { 
-        if (tbodyDOM.childNodes[i].childNodes.length > maxLength) {
-          maxLength = tbodyDOM.childNodes[i].childNodes.length;
-        }
-      }*/
 
       var maxLength = -1;
 
+      // if there's an empty spot, after trying to render 6 columns. fill it up
       for (i = 0; i < tbodyDOM.childNodes.length; i++) {
         maxLength = (maxLength < tbodyDOM.childNodes[i].childNodes.length) ? tbodyDOM.childNodes[i].childNodes.length : maxLength;
         //create 5 columns
-        while (tbodyDOM.childNodes[i].childNodes.length < 6) {
+        while (tbodyDOM.childNodes[i].childNodes.length <= 6) {
           var tempColumn = document.createElement('td'); 
+          tempColumn.appendChild(document.createTextNode("-"));
+          tbodyDOM.childNodes[i].appendChild(tempColumn);
+        }
+      }
+
+      // If there are more than 6 columns, and needs to be filled, then fill it up, and make it hidden
+      for (i = 0; i < tbodyDOM.childNodes.length; i++) {
+        while (tbodyDOM.childNodes[i].childNodes.length < maxLength) {
+          var tempColumn = document.createElement('td');
+          tempColumn.className += "hidden";
           tempColumn.appendChild(document.createTextNode("-"));
           tbodyDOM.childNodes[i].appendChild(tempColumn);
         }
@@ -231,7 +235,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     $('#lines div').removeClass('active');
     $('#lines div[data-line=' + clickedLine + ']').addClass('active');
-    $('#expand').css('display', 'block');
+    if (!$('#lines div[data-line='+clickedLine+'] h4.no_line_today').length) {
+      $('#expand').css('display', 'block');
+    } else {
+      $('#expand').css('display', 'none');
+    }
   });
 
   $("#rocbuses").on('click', function() {

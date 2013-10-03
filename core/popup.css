@@ -70,7 +70,7 @@
 }
 
 #silver tbody td:nth-child(2n+1) {
-  background: #EEF1EF;
+  background: #d6d8d7;
 }
 
 #gold tbody td:nth-child(2n+1) {
@@ -156,6 +156,7 @@ td {
 
 .no_line_today {
   text-align: center;
+  width: 450px;
 }
 
 .hidden {
@@ -176,10 +177,12 @@ thead {
   display: none;
   background-color:black;
   color:white;
-  float:right;
+  float:left;
   height: 20px;
   padding-left: 5px;
   padding-right: 5px;
   vertical-align: center;
-  margin-right: 20px;
+  right: 20px;
+  top: 8px;
+  position:fixed;
 }
