@@ -76,7 +76,7 @@ var formatInfo = {
 
       if (time >= 1200) {
         timeCell.setAttribute('class', 'pm');
-        timeCell.appendChild((time > 1300) ? document.createTextNode((hour%12) +":" + minute + "PM") : document.createTextNode(hour + ":" + minute + "PM"));
+        timeCell.appendChild((time >= 1300) ? document.createTextNode((hour%12) +":" + minute + "PM") : document.createTextNode(hour + ":" + minute + "PM"));
       } else {
         timeCell.appendChild(document.createTextNode((hour%12) + ":" + minute + "AM"));
       }
